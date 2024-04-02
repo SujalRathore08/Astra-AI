@@ -1,0 +1,27 @@
+const onSent = async (prompt) => {
+    setResultData("");
+    setLoading(true);
+    setShowResult(true);
+
+    let response = "";
+    if (prompt !== undefined) {
+        response = await runChat(prompt);
+        setRecentPrompt(prompt);
+    } else {
+        setPrevPrompts((prev) => [...prev, input]);
+        setRecentPrompt(prompt);
+        response = await runChat(input);
+    }
+
+    console.log("Response from chat:", response);
+
+    // Split the response by "as" to get the resolved answer
+    const responseParts = response.split("as");
+    let resolvedAnswer = responseParts[responseParts.length - 1].trim();
+
+    console.log("Resolved answer:", resolvedAnswer);
+
+    setResultData(resolvedAnswer);
+    setLoading(false);
+    setInput("");
+};
